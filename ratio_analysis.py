@@ -30,10 +30,42 @@ for volume in secondary_fuel_volumes:
     miles.append(miles_to_drive)
 
 plt.figure(figsize=(10,5))
-plt.plot(secondary_fuel_volumes, fuel_bonus_percentages, miles, label = "Fuel Bonus %", color='b')
+plt.plot(secondary_fuel_volumes, fuel_bonus_percentages, label = "Fuel Bonus %", color='b')
 plt.xlabel('Secondary Fuel Volume')
 plt.ylabel('Fuel Bonus %')
 plt.title('Fuel Bonus vs Secondary Fuel Volume')
 plt.legend()
 plt.grid()
+plt.show()
+
+vol = int(input('Input the fuel volume to fill up in litres: '))
+price = vol*secondary_fuel_cost_pl
+# print(f'The price is: {price}')
+desired_miles = int(input('Input the desired number of miles: '))
+required_fuel = (desired_miles/miles_per_tank)*tank_liters
+print(f'The required amount of fuel is : {required_fuel: 1f}')
+
+# Calculate the equivalent cost per liter using the discount for the desired volume
+average_fuel_price_pl = 1.35
+number_of_liters = 2 + vol
+total_cost_2 = (number_of_liters*average_fuel_price_pl)-app_discount
+eq_price = total_cost_2/number_of_liters
+print(f'The equivalent price per litre for {number_of_liters} litres is: {eq_price:.4f}')
+saving = (number_of_liters*average_fuel_price_pl)-(eq_price*number_of_liters)
+print(f'The saving is £{saving:1f}')
+
+equivalent_prices = []
+
+for volume in secondary_fuel_volumes:
+    number_of_liters_2 = volume + 2
+    total_cost_3 = (number_of_liters_2*average_fuel_price_pl)-app_discount
+    equivalent_price_pl = total_cost_3/number_of_liters_2
+    equivalent_prices.append(equivalent_price_pl)
+
+plt.figure(figsize=(10,5))
+plt.plot(secondary_fuel_volumes, equivalent_prices, label = 'Equivalent cost per litre', color = 'b')
+plt.xlabel('Secondary Fuel Volume')
+plt.ylabel('Equivalent cost per litre')
+plt.grid()
+plt.title('Equivalent cost per litre for secondary fuel volumes')
 plt.show()
